@@ -31,7 +31,7 @@ export default function Home() {
             <h2>Learn &rarr;</h2>
             <p>Learn about Next.js in an interactive course with quizzes!</p>
           </a>
-
+          <p className="text-sm text-red-600">fdnfdjnfjdnfjdnf</p>
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
