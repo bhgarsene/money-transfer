@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,12 +8,40 @@ datasource db {
 }
 
 model User {
-  id            Int       @default(autoincrement()) @id
-  name          String?
-  email         String?   @unique
-  password      String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String
+  createdAt    DateTime      @default(now()) @map(name: "created_at")
+  updatedAt    DateTime      @updatedAt @map(name: "updated_at")
+  accounts     Account[]
+  transactions Transaction[]
 }
 
+model Account {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  currency  Currency @default(USD)
+  userId    Int
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  user      User     @relation(fields: [userId], references: [id])
+}
 
+model Transaction {
+  id           Int      @id @default(autoincrement())
+  from         String
+  to           Int
+  amount       Float
+  currencyFrom Currency @map(name: "currency_from")
+  currencyTo   Currency @map(name: "currency_to")
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  user         User     @relation(fields: [to], references: [id])
+}
+
+enum Currency {
+  USD
+  EUR
+  NGN
+}

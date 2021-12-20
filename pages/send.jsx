@@ -1,40 +1,145 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Header from '../components/Header'
 import InputText from '../components/inputs/Text'
-import InputSelect from '../components/inputs/Select'
+import InputSelect from '../components/inputs/SelectCurrency'
+import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/client';
+import SelectReceiver from '../components/inputs/SelectReceiver'
+import axios from 'axios';
 
-export default function Send() {
+export const getServerSideProps = async (context) => {
+    const session = await getSession(context)
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+    const [availableUsers, balances] = await Promise.all([
+        await prisma.user.findMany({
+            where: {
+                NOT: {
+                    id: session.user.id
+                }
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            }
+        }),
+        await prisma.account.findMany({
+            where: {
+                userId: session.user.id
+
+            },
+            select: {
+                amount: true,
+                currency: true,
+            }
+        }),
+    ])
+    return {
+        props: { availableUsers, balances }
+    }
+}
+
+
+export default function Send({ availableUsers }) {
+
+
+    const [receiver, setReceiver] = useState('')
+    const [amount, setAmount] = useState('')
+    const [currencyFrom, setcurrencyFrom] = useState('')
+    const [currencyTo, setcurrencyTo] = useState('')
+    const [hasError, setHasError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+    const [session, loading] = useSession()
+    const currencies = ['USD', 'EUR', 'NGN']
+    const router = useRouter()
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        e.stopPropagation();
+        if (receiver.trim() === "" || amount.trim() === "" || currencyFrom.trim() === "" || currencyTo.trim() === "") {
+            setHasError(true)
+            setErrorMessage("Please provide all fields..");
+            return;
+        }
+        try {
+            const response = await axios.post('/api/create', {
+                receiverId: receiver,
+                amount: amount,
+                currencyFrom: currencyFrom,
+                currencyTo: currencyTo,
+                authenticatedUser: session.user
+            })
+            if (response.data.status == 200) {
+                window.location.replace(`${window.location.origin}/transaction`);
+                console.log('successful')
+            }
+        } catch (error) {
+            console.log(error)
+            // if (error.response.status !== 200) {
+            //     let errorMessage = error.response.data.message
+            //     setIsLoading(false)
+            //     setHasError(true)
+            //     setErrorMessage(errorMessage)
+            // }
+        }
+    }
+
+
     return (
         <div>
             <Head>
                 <title>Send Money</title>
-                <Header />
-                <div className="px-80 py-20">
-                    <div className="flex justify-center">
-                        <div>
-                            <InputText
-                                label="Reciever"
-                                type="text"
-                                placeholder="Enter the Reciever's Name"
-                            />
-                            <InputText
-                                label="Amount"
-                                type="number"
-                                placeholder="Enter the amount"
-                            />
-                            <InputSelect
-                                label="Currency you want to send the money from"
-                            />
-                            <InputSelect
-                                label="Currency you want to send the money to"
-                            />
+            </Head>
+            <Header />
+            <div className="px-80 py-20">
+                <div className="flex justify-center">
+                    <div>
+                        <SelectReceiver
+                            label="Receiver"
+                            options={availableUsers}
+                            onChange={e => setReceiver(e.target.value)}
+                        />
+                        <InputText
+                            label="Amount"
+                            type="number"
+                            placeholder="Enter the amount"
+                            value={amount}
+                            onChange={e => setAmount(e.target.value)}
+                        />
+                        <InputSelect
+                            label="Currency you want to send the money from"
+                            options={currencies}
+                            value={currencyFrom}
+                            onChange={e => setcurrencyFrom(e.target.value)}
+                        />
+                        <InputSelect
+                            label="Currency you want to send the money to"
+                            options={currencies}
+                            value={currencyTo}
+                            onChange={e => setcurrencyTo(e.target.value)}
+                        />
 
-                            <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4">Send</button>
+                        <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4" onClick={onSubmit}>Send</button>
+                        <div>
+                            {
+                                hasError ?
+                                    <p className="text-center text-red-600">{errorMessage}</p>
+                                    : ''
+                            }
                         </div>
                     </div>
                 </div>
-            </Head>
+            </div>
         </div>
     )
+
 }
