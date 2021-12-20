@@ -41,6 +41,7 @@ class Register extends Component {
                     if (response.data.status == 400){
                         console.log('response.data');
                     }
+                    console.log('success')
                     window.location.replace(`${window.location.origin}/transaction`);
                 })
             } 

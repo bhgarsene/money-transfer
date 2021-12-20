@@ -36,6 +36,7 @@ class Login extends Component {
                     }
                 }
                 else {
+                    console.log('success')
                     window.location.replace(`${window.location.origin}/transaction`);
                 }
             })
