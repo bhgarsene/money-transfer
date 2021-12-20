@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import User from '../public/images/profile.PNG'
+import User from '../public/images/profile.png'
 import { signOut  } from 'next-auth/client';
 
 export default function Header({title, name }) {
