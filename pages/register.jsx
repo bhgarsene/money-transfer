@@ -5,7 +5,6 @@ import axios from "axios"
 import { signIn } from "next-auth/client"
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import validator from 'validator'
 
 
 class Register extends Component {

@@ -86,9 +86,4 @@ class Login extends Component {
 }
 
 
-export default () => {
-    const router = useRouter();
-    return (
-        <Login />
-    )
-}
+export default Login;

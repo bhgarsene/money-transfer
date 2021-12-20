@@ -1,6 +1,5 @@
 import prisma from '../../../lib/prisma'
 import bcrypt  from 'bcryptjs'
-import Validator from 'Validator'
 
 export default async (req,res)=>{
     const { name , email , password  } = req.body
@@ -13,13 +12,6 @@ export default async (req,res)=>{
         return;
     }
 
-    
-    if (Validator.isEmail(email)) {
-        
-    }else{
-        res.status(400).json({ status: 400, message: "Email" });
-        return;
-    }
     
     //check if email is hasn't ben used before
     const checkIfUserExists = await prisma.user.findFirst({
