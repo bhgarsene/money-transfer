@@ -75,8 +75,10 @@ export default function Component() {
             <div className="h-screen flex items-center justify-center bg-gray-100">
                 <div className="flex shadow-xl bg-white items-center w-2/3">
                     <div className="w-3/5">
+                        <p className="text-8xl font-bold text-center px-12 text-gray-700">Money Transfer App</p>
                     </div>
-                    <div className="w-2/5 border-l border-black px-12 py-20 flex flex-col justify-between">
+                    <div className="w-2/5 border-l border-black px-12 py-12 flex flex-col justify-between">
+                        <p className="text-4xl text-center text-gray-700 mb-6">Register</p>
                         <InputText
                             label="Full Name"
                             type="text"

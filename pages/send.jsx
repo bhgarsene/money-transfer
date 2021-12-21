@@ -15,11 +15,12 @@ export const getServerSideProps = async (context) => {
     if (!session) {
         return {
             redirect: {
-                destination: '/',
+                destination: '/send',
                 permanent: false,
             },
         }
     }
+    console.log(session)
     const [availableUsers, balances] = await Promise.all([
         await prisma.user.findMany({
             where: {
