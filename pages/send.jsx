@@ -158,5 +158,4 @@ export default function Send({ availableUsers }) {
             </div>
         </div>
     )
-
 }
