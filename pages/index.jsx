@@ -26,7 +26,7 @@ export default function Login() {
             signIn("credentials", {
                 email,
                 password,
-                callbackUrl: `${window.location.origin}/transactions`,
+                callbackUrl: `${window.location.origin}/transaction`,
                 redirect: false
             }).then(function (result) {
                 if (result.error !== null) {
