@@ -50,7 +50,7 @@ export default async (req, res) => {
         //check if amount to send is not greater than the available amount
         if (accountToChargeMoney.amount < amountToSend) {
             res.status(400).json({
-                "message": `your ${currencyFrom} amount is only ${accountToChargeMoney.amount}`
+                "message": "Insufficient amount to send"
             })
             return;
         }

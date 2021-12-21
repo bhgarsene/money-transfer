@@ -13,12 +13,16 @@ export default function Component() {
     const [password, setPassword] = useState('')
     const [hasError, setHasError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
 
     const onSubmit = async (e) => {
+        setIsLoading(true)
+        setErrorMessage(false)
         e.preventDefault();
         if (email.trim() === "" || name.trim() === "" || password.trim() === "") {
             setHasError(true)
+            setIsLoading(false)
             setErrorMessage("Please provide all fields..");
             return;
         }
@@ -36,12 +40,31 @@ export default function Component() {
                     password,
                     callbackUrl: `${window.location.origin}/transaction`,
                     redirect: false
-                }).then(function(result){
-                    router.push(result.url);
+                }).then(function (result) {
+                    if (result.error !== null) {
+                        console.log('erros')
+                        console.log(result)
+                        if (result.status === 400) {
+                            console.log("Error")
+                            setIsLoading(false)
+                            setHasError(true)
+                            setErrorMessage("User already exists");
+                        }
+                        else {
+                            setIsLoading(false)
+                            setHasError(true)
+                            setErrorMessage(result.error);
+                        }
+                    }
+                    else {
+                        router.push(result.url);
+                    }
                 })
             }
         } catch (error) {
-            console.log('error ' + error.message)
+            setIsLoading(false)
+            setHasError(true)
+            setErrorMessage("User already exists");
         }
     }
     return (
@@ -76,7 +99,13 @@ export default function Component() {
                             onChange={e => setPassword(e.target.value)}
                         />
 
-                        <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4" onClick={onSubmit}>Register</button>
+                        <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4" onClick={onSubmit}>
+                            {
+                                isLoading ?
+                                    'Loading...' : 'Register'
+
+                            }
+                        </button>
                         <Link href='/'><p className="text-center my-4 pointer">All ready have an account? Login</p></Link>
                         <div>
                             {

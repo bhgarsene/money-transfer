@@ -13,10 +13,12 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const [hasError, setHasError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
     const onSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        setIsLoading(true);
         if (email.trim() === "" || password.trim() === "") {
             setHasError(true)
             setErrorMessage("Please provide all fields..");
@@ -42,6 +44,7 @@ export default function Login() {
                     }
                 }
                 else {
+                    setIsLoading(true)
                     router.push(result.url);
                 }
             })
@@ -73,7 +76,13 @@ export default function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
-                        <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4" onClick={onSubmit}>Login</button>
+                        <button className="shadow border rounded w-full py-2 px-3 text-gray-700 hover:text-black hover:font-semibold my-4" onClick={onSubmit}>
+                            {
+                                isLoading ?
+                                    'Loading...' : 'Login'
+
+                            }
+                        </button>
                         <Link href='/register'><p className="text-center my-4 pointer">New User? Register</p></Link>
                         <div>
                             {
