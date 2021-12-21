@@ -6,14 +6,16 @@ import { getSession, useSession } from 'next-auth/client';
 
 export const getServerSideProps = async (context) => {
     const session = await getSession(context)
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
-        }
-    }
+    // if (!session) {
+    //     return {
+    //         redirect: {
+    //             destination: '/',
+    //             permanent: false,
+    //         },
+    //     }
+    // }
+    
+    console.log(session)
     const [balances, transactions] = await Promise.all([
         await prisma.account.findMany({
             where: {
@@ -79,7 +81,7 @@ export default function Transaction(balances, transactions) {
                         </div>
                         <div className="w-full pt-12">
                             {
-                                balances.transactions != [] ?
+                                balances.transactions == [] ?
                                     <div>
                                         <p  className="text-2xl font-semibold text-center mb-8">List of Money Received</p>
                                         <table className="table-auto w-full">

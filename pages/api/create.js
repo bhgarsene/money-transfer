@@ -26,7 +26,7 @@ export default async (req, res) => {
 
         const accountToSendMoneyTo = await prisma.account.findFirst({
             where: {
-                userId: 1,
+                userId: receiver,
                 AND: {
                     currency: currencyTo
                 }
@@ -89,7 +89,6 @@ export default async (req, res) => {
             }
         })
         const updatedReceiverAmount = accountToSendMoneyTo.amount + convertedAmount
-        console.log('data')
         const updateReceiverQuery = await prisma.account.updateMany({
             where: {
                 userId: receiver,

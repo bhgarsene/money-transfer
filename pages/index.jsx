@@ -29,7 +29,7 @@ class Login extends Component {
             }).then(function (result) {
                 if (result.error !== null) {
                     if (result.status === 401) {
-                        console.log(result.error)
+                        console.log(this)
                     }
                     else {
                         console.log('error' + result.error)
