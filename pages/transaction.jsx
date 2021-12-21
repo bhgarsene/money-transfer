@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Head from 'next/head'
 import Link from 'next/link'
 import { getSession, useSession } from 'next-auth/client';
+import prisma from "../lib/prisma";
 
 export const getServerSideProps = async (context) => {
     const session = await getSession(context)
