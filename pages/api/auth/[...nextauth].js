@@ -25,7 +25,7 @@ const configuration = {
                 if(user !==null){
                     const checkUserPassword = await bcrypt.compare(credentials.password , user.password)
                     if(!checkUserPassword){
-                        throw new Error("Invalid password");
+                        throw new Error("Invalid Credentials");
                     }
                     userAccount = user;
                     return user;

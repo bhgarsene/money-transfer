@@ -8,8 +8,8 @@ async function main(){
    await prisma.user.create({
       data: {
             names:'Steph Curry',
-            email:'stepg@gmail.com',
-            password: await bcrypt.hash("password" , 8),
+            email:'steph@gmail.com',
+            password: await bcrypt.hash("steph" , 8),
             accounts :{
                 create:[{
                     amount:1000,

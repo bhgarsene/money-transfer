@@ -57,10 +57,10 @@ export default function Login() {
             <Head>
                 <title>Register</title>
             </Head>
-            <div className="h-screen flex items-center justify-center px-80 bg-gray-100">
-                <div className="flex shadow-xl w-full bg-white items-center">
+            <div className="h-screen flex items-center justify-center bg-gray-100">
+                <div className="flex shadow-xl bg-white items-center xl:w-2/3 md:w-3/4">
                     <div className="w-3/5">
-                        <p className="text-8xl font-bold text-center px-12 text-gray-700">Money Transfer App</p>
+                        <p className="xl:text-8xl lg:text-6xl md:text-3xl font-bold text-center px-12 text-gray-700">Money Transfer App</p>
                     </div>
                     <div className="w-2/5 border-l border-black px-12 py-12 flex flex-col justify-between">
                         <p className="text-4xl text-center text-gray-700 mb-6">Log In</p>

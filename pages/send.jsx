@@ -15,7 +15,7 @@ export const getServerSideProps = async (context) => {
     if (!session) {
         return {
             redirect: {
-                destination: '/send',
+                destination: '/',
                 permanent: false,
             },
         }
@@ -144,7 +144,7 @@ export default function Send({ availableUsers }) {
                                 }
                             </button>
                             <div className="mt-12 pointer">
-                            <Link href="transaction"><p>Back to Transactions</p></Link>
+                                <Link href="transaction"><p>Back to Transactions</p></Link>
                             </div>
                             <div>
                                 {
