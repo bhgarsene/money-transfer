@@ -71,6 +71,7 @@ export default async (req, res) => {
                 }
             })
         } catch (error) {
+            console.log('error fbdhfbdhb')
             console.log(error)
         }
 

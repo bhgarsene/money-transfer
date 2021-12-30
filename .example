@@ -4,8 +4,9 @@
 # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview).
 # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 
+<!-- 
+DATABASE_URL=postgres://postgres:root@localhost:5432/prismaApp -->
 
-DATABASE_URL=postgres://postgres:root@localhost:5432/moneyApp
-
+DATABASE_URL=postgres://ortekzpeynjquk:8dc8b82f2bd8237b89c1b169fde08e0ed193fe791a1f0c002d57194b56c1ed4e@ec2-34-236-87-247.compute-1.amazonaws.com:5432/dc645bfg4tj6vq
 
 NEXTAUTH_URL="http://localhost:3000/"
